@@ -8,6 +8,9 @@ function pattern2 () {
     }
     strip.show()
 }
+function BlackorWhite () {
+    return randint(0, 1) * 255
+}
 input.onButtonPressed(Button.A, function () {
     if (mode == MODE_MAX) {
         mode = 0
@@ -28,7 +31,7 @@ input.onButtonPressed(Button.B, function () {
 })
 function pattern1 () {
     for (let カウンター = 0; カウンター <= strip.length() - 1; カウンター++) {
-        strip.setPixelColor(カウンター, neopixel.rgb(randint(0, 255), randint(0, 255), randint(0, 255)))
+        strip.setPixelColor(カウンター, neopixel.rgb(BlackorWhite(), BlackorWhite(), BlackorWhite()))
     }
     strip.show()
 }
