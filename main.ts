@@ -1,8 +1,6 @@
 function pattern3 () {
     strip.clear()
-    for (let カウンター = 0; カウンター <= strip.length() - 1; カウンター++) {
-        strip.setPixelColor(カウンター, neopixel.hsl(0, 100 / strip.length() * カウンター, 100 / strip.length() * カウンター))
-    }
+    strip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
     strip.show()
 }
 function pattern2 () {
@@ -42,6 +40,8 @@ function pattern1 () {
 }
 function selectMode (_mode: number) {
     basic.showNumber(_mode)
+    loop = 0
+    direction = 1
     if (mode == 1) {
         pattern1()
     } else if (_mode == 2) {
@@ -53,17 +53,28 @@ function selectMode (_mode: number) {
         strip.show()
     }
 }
+let direction = 0
+let loop = 0
 let MODE_MAX = 0
 let mode = 0
 let strip: neopixel.Strip = null
 strip = neopixel.create(DigitalPin.P0, 30, NeoPixelMode.RGB_RGB)
 let range = strip.range(0, strip.length())
-strip.setBrightness(30)
+strip.setBrightness(100)
 mode = 0
 MODE_MAX = 3
 basic.showNumber(mode)
 basic.forever(function () {
-    strip.rotate(1)
-    strip.show()
-    basic.pause(200)
+    if (mode != 0) {
+        strip.rotate(direction)
+        strip.show()
+        if (mode == 3) {
+            loop += direction
+            if (loop == 0 || loop > 30) {
+                direction = direction * -1
+            }
+        } else {
+            basic.pause(200)
+        }
+    }
 })
