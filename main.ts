@@ -60,7 +60,7 @@ let mode = 0
 let strip: neopixel.Strip = null
 strip = neopixel.create(DigitalPin.P0, 30, NeoPixelMode.RGB_RGB)
 let range = strip.range(0, strip.length())
-strip.setBrightness(100)
+strip.setBrightness(80)
 mode = 0
 MODE_MAX = 3
 basic.showNumber(mode)
@@ -70,7 +70,7 @@ basic.forever(function () {
         strip.show()
         if (mode == 3) {
             loop += direction
-            if (loop == 0 || loop > 30) {
+            if (loop == 0 || loop == strip.length() - 1) {
                 direction = direction * -1
             }
         } else {
