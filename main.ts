@@ -2,6 +2,8 @@ function pattern3 () {
     strip.clear()
     strip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
     strip.show()
+    loop = 0
+    direction = 1
 }
 function pattern2 () {
     for (let カウンター = 0; カウンター <= strip.length() - 1; カウンター++) {
@@ -12,6 +14,9 @@ function pattern2 () {
         }
     }
     strip.show()
+}
+function Pattern4 () {
+    Hue = 360
 }
 function BlackorWhite () {
     return randint(0, 1) * 255
@@ -40,41 +45,52 @@ function pattern1 () {
 }
 function selectMode (_mode: number) {
     basic.showNumber(_mode)
-    loop = 0
-    direction = 1
     if (mode == 1) {
         pattern1()
     } else if (_mode == 2) {
         pattern2()
     } else if (_mode == 3) {
         pattern3()
+    } else if (_mode == 4) {
+        Pattern4()
     } else {
         strip.clear()
         strip.show()
     }
 }
+let Hue = 0
 let direction = 0
 let loop = 0
 let MODE_MAX = 0
 let mode = 0
 let strip: neopixel.Strip = null
-strip = neopixel.create(DigitalPin.P0, 30, NeoPixelMode.RGB_RGB)
+strip = neopixel.create(DigitalPin.P0, 12, NeoPixelMode.RGB_RGB)
 let range = strip.range(0, strip.length())
-strip.setBrightness(80)
+strip.setBrightness(255)
 mode = 0
-MODE_MAX = 3
+MODE_MAX = 4
 basic.showNumber(mode)
 basic.forever(function () {
-    if (mode != 0) {
+    if (mode == 1) {
         strip.rotate(direction)
         strip.show()
-        if (mode == 3) {
-            loop += direction
-            if (loop == 0 || loop == strip.length() - 1) {
-                direction = direction * -1
-            }
-        } else {
-            basic.pause(200)
+        basic.pause(200)
+    } else if (mode == 2) {
+        strip.rotate(direction)
+        strip.show()
+        basic.pause(200)
+    } else if (mode == 3) {
+        loop += direction
+        if (loop == 0 || loop == strip.length() - 1) {
+            direction = direction * -1
         }
+        strip.rotate(direction)
+        strip.show()
+    } else if (mode == 4) {
+        Hue += -1
+        if (Hue < 0) {
+            Hue = 359
+        }
+        strip.showColor(neopixel.hsl(Hue, 99, 30))
     }
 })
